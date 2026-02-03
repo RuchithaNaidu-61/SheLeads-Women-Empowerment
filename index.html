@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheLeads Collective | Empowering Women in Business</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B4C9A', // Royal Purple
+                        secondary: '#E87EA1', // Soft Rose
+                        accent: '#FBF5F8', // Off-white/Pink tint
+                        dark: '#2D3748',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for aesthetics */
+        .hero-pattern {
+            background-color: #f3e8ff;
+            background-image: radial-gradient(#6B4C9A 0.5px, transparent 0.5px), radial-gradient(#6B4C9A 0.5px, #f3e8ff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.5;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* SPA Page Transition Logic */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active-page {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+            color: #6B4C9A;
+            font-weight: bold;
+        }
+
+        /* Marquee / Slider Animation */
+        .marquee-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .marquee-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Shift by half because we will duplicate content */
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" onclick="navigateTo('home')" class="text-2xl font-serif font-bold text-primary flex items-center gap-2">
+                <i class="fa-solid fa-feather-pointed"></i> SheLeads
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-600 hover:text-primary focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex space-x-6 items-center text-sm uppercase tracking-wider">
+                <a href="#" onclick="navigateTo('home')" class="nav-link hover:text-primary transition" id="nav-home">Home</a>
+                <a href="#" onclick="navigateTo('courses')" class="nav-link hover:text-primary transition" id="nav-courses">Courses</a>
+                <a href="#" onclick="navigateTo('funding')" class="nav-link hover:text-primary transition" id="nav-funding">Funding</a>
+                <a href="#" onclick="navigateTo('alumni')" class="nav-link hover:text-primary transition" id="nav-alumni">Alumni</a>
+                <a href="#" onclick="navigateTo('blog')" class="nav-link hover:text-primary transition" id="nav-blog">Blog</a>
+                <a href="#" onclick="navigateTo('contact')" class="px-5 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition shadow-md">Join Now</a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t p-4 flex flex-col space-y-4 shadow-lg absolute w-full z-40">
+            <a href="#" onclick="navigateTo('home')" class="block hover:text-primary">Home</a>
+            <a href="#" onclick="navigateTo('courses')" class="block hover:text-primary">Courses</a>
+            <a href="#" onclick="navigateTo('funding')" class="block hover:text-primary">Funding & Support</a>
+            <a href="#" onclick="navigateTo('alumni')" class="block hover:text-primary">Alumni Mentors</a>
+            <a href="#" onclick="navigateTo('blog')" class="block hover:text-primary">Success Stories</a>
+            <a href="#" onclick="navigateTo('contact')" class="block text-primary font-bold">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container (SPA Views) -->
+    <main class="flex-grow pt-20">
+
+        <!-- ================= HOME PAGE ================= -->
+        <div id="home" class="page-section active-page">
+            <!-- Hero -->
+            <header class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden">
+                <div class="absolute inset-0 hero-pattern z-0"></div>
+                <div class="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center">
+                    <div class="lg:w-1/2 mb-10 lg:mb-0 text-center lg:text-left reveal active">
+                        <span class="inline-block py-1 px-3 rounded-full bg-secondary bg-opacity-20 text-secondary font-bold text-sm mb-4">
+                            INDIA'S PREMIER WOMEN'S NETWORK
+                        </span>
+                        <h1 class="text-4xl lg:text-6xl font-serif font-bold text-dark leading-tight mb-6">
+                            Transforming Ideas into <span class="text-primary">Empires</span>
+                        </h1>
+                        <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">
+                            We connect Indian women entrepreneurs with government grants, angel investors, and expert mentorship to build scalable businesses.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button onclick="navigateTo('courses')" class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-opacity-90 transition text-center">
+                                Start Learning
+                            </button>
+                            <button onclick="navigateTo('funding')" class="px-8 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition text-center">
+                                Get Funded
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Illustration Placeholder -->
+                    <div class="lg:w-1/2 flex justify-center reveal active">
+                        <div class="relative w-full max-w-md h-80 bg-gradient-to-tr from-secondary to-primary rounded-2xl shadow-2xl flex items-center justify-center transform rotate-3 hover:rotate-0 transition duration-500">
+                            <div class="text-white text-center p-8">
+                                <i class="fa-solid fa-indian-rupee-sign text-6xl mb-4 opacity-80"></i>
+                                <h3 class="text-2xl font-serif font-bold">₹50 Crore+</h3>
+                                <p class="mt-2 text-white text-opacity-90">Raised for Women-Led Startups</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Quick Services Preview -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-serif font-bold text-dark">How We Help</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div onclick="navigateTo('funding')" class="p-6 border rounded-xl hover:shadow-xl cursor-pointer transition text-center group">
+                            <div class="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-hand-holding-dollar text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Government Seeding</h3>
+                            <p class="text-gray-600 text-sm">Assistance with Startup India, Mudra Yojana, and women-centric grants.</p>
+                        </div>
+                        <div onclick="navigateTo('alumni')" class="p-6 border rounded-xl hover:shadow-xl cursor-pointer transition text-center group">
+                            <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-user-group text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Alumni Network</h3>
+                            <p class="text-gray-600 text-sm">Connect with successful founders who have walked the path before you.</p>
+                        </div>
+                        <div onclick="navigateTo('courses')" class="p-6 border rounded-xl hover:shadow-xl cursor-pointer transition text-center group">
+                            <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-laptop-file text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Skill Development</h3>
+                            <p class="text-gray-600 text-sm">Practical courses on digital marketing, finance, and leadership.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reviews Section -->
+            <section class="py-16 bg-accent overflow-hidden">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-serif font-bold text-dark">What Our Members Say</h2>
+                    <p class="text-gray-600 mt-2">Join thousands of happy entrepreneurs</p>
+                </div>
+                
+                <div class="marquee-container">
+                    <div class="marquee-track" id="review-track">
+                        <!-- Reviews generated by JS below for seamless looping -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= COURSES PAGE ================= -->
+        <div id="courses" class="page-section">
+            <div class="bg-primary text-white py-16 text-center">
+                <h1 class="text-4xl font-serif font-bold">Academy & Courses</h1>
+                <p class="mt-4 text-primary-100">Master the skills needed to run a modern business in India.</p>
+            </div>
+            <div class="container mx-auto px-6 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Course 1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+                        <div class="h-48 bg-gray-200 bg-[url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center"></div>
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">Business Basics</span>
+                                <span class="text-gray-500 text-sm"><i class="fa-regular fa-clock"></i> 4 Weeks</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Entrepreneurship 101</h3>
+                            <p class="text-gray-600 text-sm mb-4">From GST registration to building a business model canvas. Essential for new founders.</p>
+                        </div>
+                        <div class="p-6 border-t flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹4,999</span>
+                            <button class="text-primary font-bold hover:underline">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+                        <div class="h-48 bg-gray-200 bg-[url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center"></div>
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">Finance</span>
+                                <span class="text-gray-500 text-sm"><i class="fa-regular fa-clock"></i> 6 Weeks</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Financial Mastery for Founders</h3>
+                            <p class="text-gray-600 text-sm mb-4">Understand P&L, cash flow management, and how to pitch valuation to investors.</p>
+                        </div>
+                        <div class="p-6 border-t flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹7,499</span>
+                            <button class="text-primary font-bold hover:underline">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+                        <div class="h-48 bg-gray-200 bg-[url('https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center"></div>
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2 py-1 rounded">Marketing</span>
+                                <span class="text-gray-500 text-sm"><i class="fa-regular fa-clock"></i> 3 Weeks</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Digital Marketing & Branding</h3>
+                            <p class="text-gray-600 text-sm mb-4">Leverage Instagram, LinkedIn, and SEO to grow your brand without a huge budget.</p>
+                        </div>
+                        <div class="p-6 border-t flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹5,999</span>
+                            <button class="text-primary font-bold hover:underline">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= FUNDING PAGE ================= -->
+        <div id="funding" class="page-section">
+            <div class="bg-dark text-white py-16 text-center">
+                <h1 class="text-4xl font-serif font-bold">Funding & Government Connect</h1>
+                <p class="mt-4 text-gray-300">Bridging the gap between your startup and the capital it needs.</p>
+            </div>
+            
+            <div class="container mx-auto px-6 py-16">
+                <!-- Gov Schemes -->
+                <div class="mb-16">
+                    <h2 class="text-2xl font-bold text-primary mb-8 border-l-4 border-secondary pl-4">Government Initiatives</h2>
+                    <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-orange-500 flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/3 text-center">
+                            <i class="fa-solid fa-building-columns text-6xl text-orange-500 mb-4"></i>
+                            <h3 class="text-xl font-bold">Startup India Hub</h3>
+                        </div>
+                        <div class="md:w-2/3">
+                            <p class="text-gray-600 mb-4">
+                                SheLeads acts as an authorized facilitator for the <strong>Startup India</strong> initiative. We help you obtain your DPIIT recognition, which unlocks tax exemptions and easier compliance.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 mb-6">
+                                <li>Guidance on 80-IAC Tax Exemption</li>
+                                <li>Support for Women Entrepreneurship Platform (WEP) registration</li>
+                                <li>Mudra Yojana Loan Application assistance (Up to ₹10 Lakhs)</li>
+                            </ul>
+                            <button class="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 transition">Apply for Assistance</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Angel Investors -->
+                <div>
+                    <h2 class="text-2xl font-bold text-primary mb-8 border-l-4 border-secondary pl-4">Angel Network</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-md">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                    <i class="fa-solid fa-seedling text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold">Seed Funding</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">For startups at the idea or prototype stage. We connect you with High Net-worth Individuals (HNIs) looking for impact investments.</p>
+                            <div class="text-primary font-bold">Ticket Size: ₹5 Lakhs - ₹50 Lakhs</div>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-md">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
+                                    <i class="fa-solid fa-layer-group text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold">Pre-Series A</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">For businesses with revenue looking to scale. Access our network of micro-VCs and angel syndicates.</p>
+                            <div class="text-primary font-bold">Ticket Size: ₹50 Lakhs - ₹2 Crores</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ALUMNI PAGE ================= -->
+        <div id="alumni" class="page-section">
+            <div class="bg-secondary bg-opacity-10 py-16 text-center">
+                <h1 class="text-4xl font-serif font-bold text-dark">Alumni Mentorship</h1>
+                <p class="mt-4 text-gray-600">Learn from the SheLeads alumni who have made it big.</p>
+            </div>
+
+            <div class="container mx-auto px-6 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Alumni 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                        <h3 class="text-xl font-bold">Riya Sharma</h3>
+                        <p class="text-primary text-sm font-bold mb-2">CEO, TechEdu India</p>
+                        <p class="text-gray-600 text-sm italic mb-4">"SheLeads helped me secure my first ₹20L grant from the government. Now I employ 50 people."</p>
+                        <button class="text-secondary font-bold text-sm hover:underline">Request Mentorship</button>
+                    </div>
+
+                    <!-- Alumni 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                        <img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                        <h3 class="text-xl font-bold">Anjali Gupta</h3>
+                        <p class="text-primary text-sm font-bold mb-2">Founder, Organic Roots</p>
+                        <p class="text-gray-600 text-sm italic mb-4">"The network here is unmatched. I found my co-founder through the Alumni meetups."</p>
+                        <button class="text-secondary font-bold text-sm hover:underline">Request Mentorship</button>
+                    </div>
+
+                    <!-- Alumni 3 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                        <img src="https://images.unsplash.com/photo-1507537297725-24a1c43253ad?auto=format&fit=crop&q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                        <h3 class="text-xl font-bold">Meera Nair</h3>
+                        <p class="text-primary text-sm font-bold mb-2">Director, FinEase</p>
+                        <p class="text-gray-600 text-sm italic mb-4">"From a home-baker to a fintech founder, the transition was only possible due to the courses here."</p>
+                        <button class="text-secondary font-bold text-sm hover:underline">Request Mentorship</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= BLOG PAGE ================= -->
+        <div id="blog" class="page-section">
+            <div class="container mx-auto px-6 py-16">
+                <h1 class="text-4xl font-serif font-bold text-dark mb-12 border-b pb-4">Success Stories & Insights</h1>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Main Featured Post -->
+                    <div class="lg:col-span-2 group cursor-pointer" onclick="openArticle('leena')">
+                        <div class="relative h-96 rounded-2xl overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent w-full p-8">
+                                <span class="bg-primary text-white px-3 py-1 rounded text-xs font-bold mb-2 inline-block">Success Story</span>
+                                <h2 class="text-3xl font-bold text-white">How Leena Scaled Her Handicraft Business to ₹1 Crore Revenue</h2>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Leena's journey started in a small garage in Jaipur. With the help of the 'Growth Strategy' course and seed funding facilitated by SheLeads, she now exports to 15 countries.</p>
+                        <button class="text-primary font-bold hover:underline">Read Full Story <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="flex flex-col gap-4">
+                        <div class="h-60 rounded-xl overflow-hidden cursor-pointer" onclick="openArticle('gov_schemes')">
+                            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div>
+                            <span class="text-gray-500 text-xs font-bold">FINANCE • 5 MIN READ</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2 hover:text-primary cursor-pointer" onclick="openArticle('gov_schemes')">5 Government Schemes Every Woman Entrepreneur Should Know in 2026</h3>
+                            <p class="text-gray-600 text-sm">Don't miss out on collateral-free loans and subsidies provided by the MSME ministry.</p>
+                            <button class="text-primary font-bold text-sm mt-2 hover:underline" onclick="openArticle('gov_schemes')">Read Full Story</button>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="flex flex-col gap-4">
+                        <div class="h-60 rounded-xl overflow-hidden cursor-pointer" onclick="openArticle('sneha')">
+                            <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div>
+                            <span class="text-gray-500 text-xs font-bold">TECH • 6 MIN READ</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2 hover:text-primary cursor-pointer" onclick="openArticle('sneha')">Bridging the Digital Divide: Sneha’s AI Tool for Rural Farmers</h3>
+                            <p class="text-gray-600 text-sm">How a former IT engineer returned to her village to build an app that serves 10,000+ farmers.</p>
+                            <button class="text-primary font-bold text-sm mt-2 hover:underline" onclick="openArticle('sneha')">Read Full Story</button>
+                        </div>
+                    </div>
+
+                     <!-- Post 4 -->
+                     <div class="flex flex-col gap-4">
+                        <div class="h-60 rounded-xl overflow-hidden cursor-pointer" onclick="openArticle('kavita')">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div>
+                            <span class="text-gray-500 text-xs font-bold">SUSTAINABILITY • 4 MIN READ</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2 hover:text-primary cursor-pointer" onclick="openArticle('kavita')">From Waste to Wardrobe: The 'ReWeave' Revolution</h3>
+                            <p class="text-gray-600 text-sm">Kavita turned industrial textile scraps into high-street fashion, securing ₹50L in pre-seed funding.</p>
+                            <button class="text-primary font-bold text-sm mt-2 hover:underline" onclick="openArticle('kavita')">Read Full Story</button>
+                        </div>
+                    </div>
+
+                    <!-- Post 5 -->
+                    <div class="flex flex-col gap-4">
+                        <div class="h-60 rounded-xl overflow-hidden cursor-pointer" onclick="openArticle('anusha')">
+                            <img src="https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div>
+                            <span class="text-gray-500 text-xs font-bold">FINTECH • 7 MIN READ</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2 hover:text-primary cursor-pointer" onclick="openArticle('anusha')">Breaking the Glass Ceiling in Fintech: Anusha's Journey</h3>
+                            <p class="text-gray-600 text-sm">Facing 20 rejections from VCs, Anusha persisted. Today, her payment gateway is valued at ₹200 Crores.</p>
+                            <button class="text-primary font-bold text-sm mt-2 hover:underline" onclick="openArticle('anusha')">Read Full Story</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ARTICLE READER (Hidden Dynamic View) ================= -->
+        <div id="article-reader" class="page-section">
+            <div class="bg-gray-100 py-8">
+                <div class="container mx-auto px-6">
+                    <button onclick="navigateTo('blog')" class="flex items-center gap-2 text-primary font-bold hover:underline mb-4">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Success Stories
+                    </button>
+                </div>
+            </div>
+            
+            <article class="container mx-auto px-6 py-12 max-w-4xl">
+                <div id="article-content">
+                    <!-- Content injected via JS -->
+                </div>
+            </article>
+        </div>
+
+
+        <!-- ================= CONTACT PAGE ================= -->
+        <div id="contact" class="page-section">
+             <div class="container mx-auto px-6 py-20">
+                <div class="flex flex-col lg:flex-row gap-12">
+                    <!-- Contact Info -->
+                    <div class="lg:w-1/3">
+                        <h2 class="text-3xl font-serif font-bold text-dark mb-6">Let's Build Together</h2>
+                        <p class="text-gray-600 mb-8">
+                            Ready to take your business to the next level? Fill out the form or reach us through our channels.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center text-secondary shrink-0">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-dark">Our Office</h4>
+                                    <p class="text-gray-500 text-sm">Jyoti Nivas College,<br>Bengaluru, India 560095</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center text-secondary shrink-0">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-dark">Email Us</h4>
+                                    <p class="text-gray-500 text-sm">hello@sheleads.com</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center text-secondary shrink-0">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-dark">Call Us</h4>
+                                    <p class="text-gray-500 text-sm">+91 98765 43210</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="lg:w-2/3 bg-gray-50 p-8 rounded-2xl shadow-inner">
+                        <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Your Name</label>
+                                    <input type="text" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Ananya Singh">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="ananya@example.com">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Subject</label>
+                                <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition">
+                                    <option>General Inquiry</option>
+                                    <option>Startup India Registration</option>
+                                    <option>Mentorship Programs</option>
+                                    <option>Investment Opportunities</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Message</label>
+                                <textarea required rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Tell us about your startup idea..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition shadow-md">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-2xl font-serif font-bold mb-4">SheLeads Collective</h3>
+                    <p class="text-gray-400 max-w-sm">
+                        Empowering Indian women entrepreneurs through strategy, funding, and education.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Explore</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="navigateTo('courses')" class="hover:text-secondary transition">Courses</a></li>
+                        <li><a href="#" onclick="navigateTo('funding')" class="hover:text-secondary transition">Funding</a></li>
+                        <li><a href="#" onclick="navigateTo('alumni')" class="hover:text-secondary transition">Alumni</a></li>
+                        <li><a href="#" onclick="navigateTo('blog')" class="hover:text-secondary transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-secondary transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-secondary transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2026 SheLeads Collective. Made with <i class="fa-solid fa-heart text-red-500"></i> in India by Ruchitha Sandeep.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Data for Article Reader
+        const articleDatabase = {
+            'leena': {
+                title: "How Leena Scaled Her Handicraft Business to ₹1 Crore Revenue",
+                category: "Success Story",
+                date: "Jan 12, 2026",
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
+                content: `
+                    <p class="text-xl font-serif text-gray-700 mb-6 italic leading-relaxed">"I started with two artisans and a dream. Today, we ship 5,000 units a month to Europe and the US. SheLeads gave me the blueprint."</p>
+                    <p class="mb-4">Leena Malhotra grew up in Jaipur, surrounded by the vibrant colors of traditional block printing. However, she noticed that the artisans were underpaid and the art form was struggling to find a modern market. In 2023, she launched 'Jaipur Heritage', a D2C brand aimed at bringing authentic Rajasthani textiles to the global market.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">The Challenge</h3>
+                    <p class="mb-4">"The product was great, but I had no idea how to handle logistics or digital marketing," Leena admits. "I was burning cash on ads that didn't convert."</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">The Turning Point</h3>
+                    <p class="mb-4">Leena joined the SheLeads 'Growth Strategy' cohort. Her mentor, a logistics expert, helped her restructure her supply chain, reducing shipping costs by 30%. Simultaneously, she utilized the SheLeads network to pitch to angel investors.</p>
+                    <p class="mb-4">With ₹25 Lakhs in seed funding secured through the network, Leena revamped her website and invested in high-quality storytelling content.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">The Result</h3>
+                    <p class="mb-4">In FY 2025-26, Jaipur Heritage crossed the ₹1 Crore revenue mark. They now employ 45 artisans, ensuring fair wages and preserving the craft. Leena's story is a testament to the power of combining traditional skills with modern business acumen.</p>
+                `
+            },
+            'gov_schemes': {
+                title: "5 Government Schemes Every Woman Entrepreneur Should Know in 2026",
+                category: "Finance",
+                date: "Jan 10, 2026",
+                image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800",
+                content: `
+                    <p class="text-xl font-serif text-gray-700 mb-6 italic leading-relaxed">Funding is often the biggest hurdle. Here is how the Government of India is helping you jump over it.</p>
+                    <p class="mb-4">The landscape for women entrepreneurs in India has never been better. With the government pushing for 30% procurement from MSMEs, specifically targeting women-led enterprises, opportunities abound.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">1. Mudra Yojana for Women (Mahila Uddyami Scheme)</h3>
+                    <p class="mb-4">Under this scheme, women can avail of loans up to ₹10 Lakhs without collateral. Interest rates are often subsidized by 0.25% compared to standard rates.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">2. Stand-Up India</h3>
+                    <p class="mb-4">Facilitates bank loans between ₹10 Lakh and ₹1 Crore to at least one SC/ST borrower and at least one woman borrower per bank branch for setting up a greenfield enterprise.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">3. TREAD (Trade Related Entrepreneurship Assistance and Development)</h3>
+                    <p class="mb-4">This scheme provides a government grant of up to 30% of the total project cost as appraised by lending institutions. It is specifically designed for NGOs promoting women's entrepreneurship.</p>
+                    <p class="mb-4">At SheLeads, our legal team helps you navigate the paperwork for all these schemes free of cost for premium members.</p>
+                `
+            },
+            'sneha': {
+                title: "Bridging the Digital Divide: Sneha’s AI Tool for Rural Farmers",
+                category: "Technology",
+                date: "Dec 28, 2025",
+                image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=800",
+                content: `
+                    <p class="text-xl font-serif text-gray-700 mb-6 italic leading-relaxed">"They told me farmers wouldn't use smartphones. Now we have 10,000 daily active users."</p>
+                    <p class="mb-4">Sneha Rao left her comfortable job in Silicon Valley to return to her roots in rural Karnataka. Her startup, 'KrishiSetu', uses AI to detect crop diseases from simple photos taken on a phone.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">Innovation for Impact</h3>
+                    <p class="mb-4">Sneha realized that lack of timely information was destroying 40% of yields. She built a lightweight app that works on 2G networks and supports 8 regional languages.</p>
+                    <p class="mb-4">"The SheLeads tech mentorship was crucial," Sneha says. "My mentor helped me optimize the AI model to run locally on low-end devices, saving us massive cloud costs."</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">Scaling Up</h3>
+                    <p class="mb-4">KrishiSetu recently raised ₹3 Crores in a Pre-Series A round led by impact investors connected through the SheLeads Funding Summit. The app has helped save crops worth an estimated ₹15 Crores in the last harvest season alone.</p>
+                `
+            },
+            'kavita': {
+                title: "From Waste to Wardrobe: The 'ReWeave' Revolution",
+                category: "Sustainability",
+                date: "Dec 15, 2025",
+                image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+                content: `
+                    <p class="text-xl font-serif text-gray-700 mb-6 italic leading-relaxed">"Fashion is the second most polluting industry. I wanted to change that without compromising on style."</p>
+                    <p class="mb-4">Kavita Das, a NIFT graduate, was appalled by the textile waste generated by factories. She founded 'ReWeave' to upcycle industrial scraps into premium fabrics.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">Circular Economy in Action</h3>
+                    <p class="mb-4">ReWeave collects waste from 50+ factories in Tirupur. Using a proprietary cleaning and weaving process, they create fabric that is 100% recycled but feels like virgin cotton.</p>
+                    <p class="mb-4">SheLeads helped Kavita secure a partnership with a major European retail chain, giving her the volume needed to make the recycling process profitable. ReWeave recently won the 'Sustainable Startup of the Year' award at the Bangalore Tech Summit.</p>
+                `
+            },
+            'anusha': {
+                title: "Breaking the Glass Ceiling in Fintech: Anusha's Journey",
+                category: "Fintech",
+                date: "Nov 20, 2025",
+                image: "https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&q=80&w=800",
+                content: `
+                    <p class="text-xl font-serif text-gray-700 mb-6 italic leading-relaxed">"When I walked into boardrooms, they looked for my male co-founder. I had to show them I was the one building the tech."</p>
+                    <p class="mb-4">Anusha Reddy is the founder of 'PayEasy', a payment gateway tailored for Tier-2 and Tier-3 city merchants. In a male-dominated industry, Anusha faced skepticism at every turn.</p>
+                    <h3 class="text-2xl font-bold text-dark mt-8 mb-4">Persistence Pays Off</h3>
+                    <p class="mb-4">After 20 rejections, Anusha met a SheLeads Alumni investor who understood the potential of the Bharat market. With the initial cheque of ₹1 Crore, Anusha aggressively acquired merchants in small towns.</p>
+                    <p class="mb-4">Today, PayEasy processes ₹50 Crores in monthly transactions. Anusha is now a mentor at SheLeads, helping other women in tech navigate the fundraising landscape.</p>
+                `
+            }
+        };
+
+        // Function to open article
+        function openArticle(articleId) {
+            const article = articleDatabase[articleId];
+            if (!article) return;
+
+            const readerHTML = `
+                <div class="w-full h-80 rounded-2xl overflow-hidden mb-8 relative">
+                    <img src="${article.image}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                    <div class="absolute bottom-0 left-0 p-8 text-white">
+                        <span class="bg-primary px-3 py-1 rounded text-xs font-bold mb-2 inline-block">${article.category}</span>
+                        <h1 class="text-3xl md:text-5xl font-serif font-bold leading-tight">${article.title}</h1>
+                        <p class="mt-2 opacity-90 text-sm"><i class="fa-regular fa-calendar mr-2"></i> ${article.date}</p>
+                    </div>
+                </div>
+                <div class="prose prose-lg max-w-none text-gray-700">
+                    ${article.content}
+                </div>
+            `;
+
+            document.getElementById('article-content').innerHTML = readerHTML;
+            
+            // Navigate to reader page
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active-page'));
+            
+            // Show reader
+            document.getElementById('article-reader').classList.add('active-page');
+            window.scrollTo(0, 0);
+        }
+
+        // Reviews Data & Logic
+        const reviews = [
+            { name: "Priya Menon", role: "CEO, CreativeWorks", text: "The mentorship changed my life. I went from a freelancer to an agency owner in 6 months.", stars: 5 },
+            { name: "Sarah Khan", role: "Founder, EcoEats", text: "Funding was a nightmare until I found SheLeads. Their angel network is the real deal.", stars: 5 },
+            { name: "Lakshmi R.", role: "Director, TechSol", text: "The courses are practical and to the point. No fluff, just actionable business advice.", stars: 4 },
+            { name: "Anita Desai", role: "Owner, Desai Textiles", text: "I found my co-founder at a SheLeads meetup. Best community for women.", stars: 5 },
+            { name: "Megha V.", role: "Freelance Consultant", text: "Finally, a network that understands the unique challenges we face. Highly recommended!", stars: 5 },
+            { name: "Tanya S.", role: "Founder, Appify", text: "Secured ₹15L via the Startup India guidance provided here. Forever grateful.", stars: 5 }
+        ];
+
+        function renderReviews() {
+            const track = document.getElementById('review-track');
+            // Create Review Cards
+            const createCard = (review) => `
+                <div class="w-80 bg-white p-6 rounded-xl shadow-md flex-shrink-0 border border-gray-100">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-3 text-sm">
+                        ${Array(review.stars).fill('<i class="fa-solid fa-star"></i>').join('')}
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">"${review.text}"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xs">
+                            ${review.name.charAt(0)}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-sm">${review.name}</h4>
+                            <p class="text-xs text-gray-400">${review.role}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Duplicate the array to create seamless loop effect
+            const allReviews = [...reviews, ...reviews, ...reviews]; 
+            track.innerHTML = allReviews.map(createCard).join('');
+        }
+
+        // SPA Navigation Logic
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active-page');
+            });
+
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('active-page');
+                window.scrollTo(0, 0);
+            }
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            const activeLink = document.getElementById('nav-' + pageId);
+            if(activeLink) activeLink.classList.add('active');
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = 'Message Sent!';
+            btn.classList.add('bg-green-500');
+            btn.classList.remove('bg-primary');
+            
+            setTimeout(() => {
+                event.target.reset();
+                btn.innerText = originalText;
+                btn.classList.remove('bg-green-500');
+                btn.classList.add('bg-primary');
+                alert("Namaste! Thank you for reaching out. Our team will contact you shortly.");
+            }, 1000);
+        }
+
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        
+        // Init
+        reveal();
+        renderReviews();
+    </script>
+</body>
+</html>
